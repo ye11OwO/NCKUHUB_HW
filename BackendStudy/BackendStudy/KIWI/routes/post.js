@@ -259,21 +259,39 @@ router.post('/report/:id', function (req, res) {
 
 /*report post */
 router.post('/setWish/:userID', function (req, res) {
-    var userID = config.userId;
-    var sql_1 = 'delete from wishList where userID = ' + userID;
+    console.log(req.body['now_whishlist']);
+    var userID = 1564;
+    var TEMP = "DELETE FROM wishList WHERE userID=" + userID;
+    // console.log(TEMP);
     console.log(req.body);
-    db.Query(sql_1, function () {
 
+    db.Query(TEMP, function () {
         for (var i in req.body['now_wishlist']) {
-            var sql_2 = 'insert into wishList(userID, courseID) values(' + userID + ', ' + req.body['now_wishlist'][i] + ')';
-            db.Query(sql_2, function () { });
+            var sql_in = "insert into wishList(userID, courseID) value (" + userID + "," + req.body['now_wishlist'][i] + ")";
+            db.Query(sql_in, function () { });
+        }
+    })
+    
+    // var data = {
+    //     userID: 1564,
+    //     courseID: req.body['now_wishlist'][i],
+    // };
+    // db.Insert('wishList', data, function () { });
 
-            // var data = {
-            //     'userID': userID,
-            //     'courseID': req.body['now_wishlist'][i],
-            // };
-        }  
-    });
+
+    // db.Query(delete from wishlist where userID=1564, function () {})
+    // for(var i in req.body['now_wishlist']){
+
+    //     // db.Query(insert into wishList(userID, courseID) Values(userID req.body['now_wishlist'][i]`)`, function () { })
+    // }
+
+    // console.log(req.body)
+    // console.log(req.body['now_wishlist'])
+    // for (var i in req.body['now_wishlist']) {
+    //     console.log(i);
+    //     console.log(req.body['now_wishlist'][i])
+
+    // }
     /**
      * [ BackendHw ]
      *  0. 此 API 是用來記錄下 user 的願望課程，因為需要紀錄是哪個 user 的，所以先幫各位假定了一個
@@ -282,16 +300,14 @@ router.post('/setWish/:userID', function (req, res) {
      *      - Hint: 可以去觀察 req.body，裡頭會告訴你前端塞了什麼東西給咱們後端～
      *  3. 要去考慮到刪除願望清單的情況，在這邊把 "刪除" 和 "新增" 都寫在這個 API 了
      *      - Hint: 新增之前要先把資料庫原有的願望清單刪除～
-     * 
-     
-    */
+     */
+
     // wishList
     // Data: {
     //     userID : 1171
     //     courseID : 42693
     // }
 });
-
 
 
 router.post('/setTable/:userID', function (req, res) {
