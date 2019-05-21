@@ -295,8 +295,19 @@ router.post('/setWish/:userID', function (req, res) {
 
 
 router.post('/setTable/:userID', function (req, res) {
-    var userID = config.userId;
-
+    var userID = 1564;
+    console.log(req.body);
+    var temp_table = "delete from tableList where userID=" + userID;
+    db.Query(temp_table, function () {
+        for (var i in req.body['now_table']) {
+            var data = {
+                userID: 1564,
+                courseID: req.body['now_table'][i],
+                userName: "汪曉東C",
+            };
+            db.Insert('tableList', data, function () { });
+        }
+    });
     /**
      * [ BackendHw ]
      *  0. 此 API 是用來記錄下 user 的自己排的課表，因為需要紀錄是哪個 user 的，所以先幫各位假定了一個
