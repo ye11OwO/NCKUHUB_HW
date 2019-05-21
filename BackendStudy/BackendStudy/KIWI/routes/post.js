@@ -260,20 +260,20 @@ router.post('/report/:id', function (req, res) {
 /*report post */
 router.post('/setWish/:userID', function (req, res) {
     var userID = config.userId;
-    // var sql_1 = 'delete from wishList where userID = ' + userID;
-    // console.log(req.body);
-    // db.Query(sql_1, function () {
+    var sql_1 = 'delete from wishList where userID = ' + userID;
+    console.log(req.body);
+    db.Query(sql_1, function () {
 
-    //     for (var i in req.body['now_wishlist']) {
-    //         var sql_2 = 'insert into wishList(userID, courseID) values(' + userID + ', ' + req.body['now_wishlist'][i] + ')';
-    //         db.Query(sql_2, function () { });
+        for (var i in req.body['now_wishlist']) {
+            var sql_2 = 'insert into wishList(userID, courseID) values(' + userID + ', ' + req.body['now_wishlist'][i] + ')';
+            db.Query(sql_2, function () { });
 
-    //         // var data = {
-    //         //     'userID': userID,
-    //         //     'courseID': req.body['now_wishlist'][i],
-    //         // };
-    //     }  
-    // });
+            // var data = {
+            //     'userID': userID,
+            //     'courseID': req.body['now_wishlist'][i],
+            // };
+        }  
+    });
     /**
      * [ BackendHw ]
      *  0. 此 API 是用來記錄下 user 的願望課程，因為需要紀錄是哪個 user 的，所以先幫各位假定了一個
@@ -296,20 +296,6 @@ router.post('/setWish/:userID', function (req, res) {
 
 router.post('/setTable/:userID', function (req, res) {
     var userID = config.userId;
-    // var sql_3 = 'delete from tableList where userID = ' + userID;
-    console.log(req.body);
-    // db.Query(sql_3, function () {
-
-    //     for (var i in req.body['now_wishlist']) {
-    //         var sql_4 = 'insert into wishList(userID, courseID) values(' + userID + ', ' + req.body['now_wishlist'][i] + ')';
-    //         db.Query(sql_4, function () { });
-
-    //         // var data = {
-    //         //     'userID': userID,
-    //         //     'courseID': req.body['now_wishlist'][i],
-    //         // };
-    //     }  
-    // });
 
     /**
      * [ BackendHw ]
@@ -338,7 +324,5 @@ router.delete('/:id', function (req, res) {
         res.send('Success');
     });
 });
-
-
 
 module.exports = router;
