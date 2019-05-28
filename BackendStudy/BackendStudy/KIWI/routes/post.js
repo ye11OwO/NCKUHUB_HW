@@ -144,7 +144,31 @@ router.post('/create', function (req, res) {
         console.log("Error " + errors);
         res.send(errors);
     } else {
-
+        var post_Data={
+            course_name : req.body.course_name,
+            teacher : req.body.teacher,
+            semester : req.body.semester,
+            catalog : req.body.catalog,
+            comment : req.body.comment,
+            user_id : userid
+        }
+        db.Insert('post',post_Data,function(){
+            var sql = `SELECT id FROM post WHERE course_name LIKE '%` + req.body.course_name + `%' AND comment LIKE '%` + req.body.comment + `%' AND user_id LIKE '%` + userid + `%'`;
+            db.Query(sql, function(id){
+                var course_rate_Data={
+                    sweet : req.body.sweet,
+                    cold : req.body.cold,
+                    got : req.body.got,
+                    course_name : req.body.course_name,
+                    teacher : req.body.teacher,
+                    user_id : userid,
+                    post_id : id[0].id
+                }
+                db.Insert('course_rate',course_rate_Data,function(){});
+            });
+        });
+        
+        
         /**
          * [ BackendHw ]
          *  0. 要過以上 2 個檢驗，一個是目前是 user 登入狀態而不是訪客，另一個是填寫心得部分不可以為空，這邊先幫大家寫好囉～

@@ -134,6 +134,24 @@ router.get('/:id', function (req, res) {
     if (id.match(/\D/g)) {
         res.redirect('/');
     } else {
+        db.FindbyID('course_new', id, function (course_new) {
+            course_new.count++;
+            var update_count = `UPDATE course_new SET count=` + course_new.count + ` WHERE id=`+ id;
+            db.Query(update_count, function(){});
+            var select_comment = `SELECT comment FROM post WHERE course_name LIKE '%` + course_new.課程名稱 + `%' AND teacher LIKE '%` + course_new.老師 + `%'`;
+            db.Query(select_comment, function(post){
+                comment_data={
+                    "got":"0.0",
+                    "cold":"0.0",
+                    "sweet":"0.0",
+                    "rate_count":0,
+                    "courseInfo":course_new,
+                    "comment":post,
+                    "rates":[]
+                };
+                res.json(comment_data);
+            });
+        });
         /**
         [backend HW]
          *  1. 檢查是否有這個 :id
@@ -145,16 +163,6 @@ router.get('/:id', function (req, res) {
          *  6. 最後將這些都送回去前端～ 
          *      - Hint: res.json(data)   
          */
-        
-        res.send({
-            "got": "0",
-            "cold": "0",
-            "sweet": "0",
-            "rate_count": 0,
-            'courseInfo': '',
-            'comment': '',
-            'rates':[]}
-        );
     }
 });
 
